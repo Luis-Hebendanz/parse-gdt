@@ -11,8 +11,10 @@
         pkgs = import nixpkgs { inherit system; };
         naersk-lib = pkgs.callPackage naersk { };
       in
-      {
-        defaultPackage = naersk-lib.buildPackage ./.;
+      rec {
+        packages.default = naersk-lib.buildPackage ./.;
+
+        defaultPackage = packages.default;
 
         defaultApp = utils.lib.mkApp {
           drv = self.defaultPackage."${system}";
